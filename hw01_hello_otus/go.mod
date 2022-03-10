@@ -1,4 +1,4 @@
-module github.com/medov1988/hw_otus_golang
+module github.com/medov1988/hw_otus_golang/hw01_hello_otus
 
 go 1.16
 
