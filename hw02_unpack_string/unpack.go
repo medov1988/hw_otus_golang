@@ -20,10 +20,8 @@ func Unpack(s string) (string, error) {
 	prev := '1'
 
 	for _, current = range s {
-		println(string(current))
 		if prev == Shield && !shielding {
 			if !unicode.IsDigit(current) && current != Shield {
-				println("============" + result.String() + "===========")
 				return result.String(), ErrInvalidString
 			}
 			shielding = true
