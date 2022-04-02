@@ -7,7 +7,7 @@ import (
 )
 
 // Change to true if needed.
-var taskWithAsteriskIsCompleted = false
+var taskWithAsteriskIsCompleted = true
 
 var text = `Как видите, он  спускается  по  лестнице  вслед  за  своим
 	другом   Кристофером   Робином,   головой   вниз,  пересчитывая
@@ -46,6 +46,48 @@ var text = `Как видите, он  спускается  по  лестни�
 func TestTop10(t *testing.T) {
 	t.Run("no words in empty string", func(t *testing.T) {
 		require.Len(t, Top10(""), 0)
+	})
+
+	textEmptyResult := []string{
+		"",
+		",",
+		" ",
+		"  ",
+		"- ",
+		" - ",
+		"---",
+		" - --,,,,123",
+		"\t-\t\t\t\\",
+	}
+
+	for _, s := range textEmptyResult {
+		t.Run(s, func(t *testing.T) {
+			require.Len(t, Top10(s), 0)
+		})
+	}
+
+	t.Run("Greks", func(t *testing.T) {
+		expectedGrek := []string{
+			"греку", // 5
+			"грека", // 3
+			"в",     // 2
+			"грек",  // 2
+			"видит", // 1
+			"греке", // 1
+			"едет",  // 1
+			"за",    // 1
+			"сунул", // 1
+			"цап",   // 1
+		}
+		require.Equal(t, expectedGrek, Top10(`"Едет Грека через греку, видит Грека в греке Грек.
+			Сунул Грека в греку греку - Грек за греку Греку цап!":)`))
+	})
+
+	t.Run("O-string", func(t *testing.T) {
+		expectedGrek := []string{
+			"o",
+		}
+		require.Equal(t, expectedGrek, Top10(`- O - O/O !-2-- ----`))
 	})
 
 	t.Run("positive test", func(t *testing.T) {
