@@ -12,23 +12,21 @@ type kv struct {
 }
 
 var (
-	re1 = regexp.MustCompile("[0-9!-,./:-@\\[-`\\{-~]|[\t]|[\n]| - ")
+	re1 = regexp.MustCompile("[0-9!-,./:-@\\[-`\\{-~]|[\t]|[\n]")
 	re2 = regexp.MustCompile(" - ")
-	re3 = regexp.MustCompile("([ ]{2,})")
 )
 
 func Top10(s string) []string {
 	s = re1.ReplaceAllString(s, " ")
 	s = re2.ReplaceAllString(s, " ")
-	s = re3.ReplaceAllString(s, " ")
 	s = strings.Trim(s, "- ")
 	s = strings.ToLower(s)
 
 	if len(s) == 0 {
-		return []string{}
+		return nil
 	}
 
-	a := strings.Split(s, " ")
+	a := strings.Fields(s)
 	m := map[string]int{}
 
 	for _, e := range a {
@@ -51,11 +49,8 @@ func Top10(s string) []string {
 
 	result := make([]string, 0, 10)
 
-	for k, v := range sortedStruct {
-		result = append(result, v.Key)
-		if k == 9 {
-			break
-		}
+	for i := 0; i < len(sortedStruct) && i < 10; i++ {
+		result = append(result, sortedStruct[i].Key)
 	}
 	return result
 }
